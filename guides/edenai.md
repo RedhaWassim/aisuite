@@ -18,7 +18,7 @@ import aisuite as ai
 client = ai.Client()
 
 provider = "edenai"
-# edenai provide a wide varaity of models, for more informations about the models available visit : https://docs.edenai.co/reference/multimodal_multimodal_chat_create
+# edenai provide a wide varaity of models, for more informations about the models available visit : https://docs.edenai.co/reference/llm_llm_chat_create
 model_id = "openai/gpt-4"
 
 messages = [

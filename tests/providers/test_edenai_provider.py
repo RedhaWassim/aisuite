@@ -37,7 +37,7 @@ def test_edenai_provider():
         model_name = selected_model.split(":")[-1]
         expected_payload = {
             "model": model_name,
-            "messages": provider._reformat_multimodal(message_history),
+            "messages": message_history,
             "temperature": chosen_temperature
         }
 

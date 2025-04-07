@@ -17,47 +17,6 @@ class EdenaiProvider(Provider):
             )
         self.timeout = config.get("timeout", 30)
 
-    def _reformat_multimodal(self, messages: List[dict]) -> List[dict]:
-        reformatted = []
-        for message in messages:
-            new_msg = {"role": message["role"], "content": []}
-            content = message.get("content", "")
-
-            if isinstance(content, list):
-                new_msg["content"] = self._transform_content_parts(content)
-            else:
-                try:
-                    parsed = json.loads(content)
-                    new_msg["content"] = (
-                        self._transform_content_parts(parsed)
-                        if isinstance(parsed, list)
-                        else [{"type": "text", "text": str(parsed)}]
-                    )
-                except (json.JSONDecodeError, TypeError):
-                    new_msg["content"].append({"type": "text", "text": str(content)})
-
-            reformatted.append(new_msg)
-        return reformatted
-
-    def _transform_content_parts(self, parts: List[dict]) -> List[dict]:
-        transformed = []
-        for part in parts:
-            part_type = part.get("type")
-            content = part.get("content", {})
-
-            if part_type == "text":
-                transformed.append({"type": "text", "text": content.get("text", "")})
-            elif part_type == "media_url":
-                transformed.append(
-                    {
-                        "type": "image_url",
-                        "image_url": {"url": content.get("media_url", "")},
-                    }
-                )
-            else:
-                transformed.append(part)
-        return transformed
-
     def chat_completions_create(self, model: str, messages: List[dict], **kwargs):
         model_name = model.split(":")[-1]
         headers = {
@@ -65,9 +24,8 @@ class EdenaiProvider(Provider):
             "Content-Type": "application/json",
         }
 
-        formatted_messages = self._reformat_multimodal(messages)
 
-        payload = {"model": model_name, "messages": formatted_messages, **kwargs}
+        payload = {"model": model_name, "messages": messages, **kwargs}
 
         try:
             response = httpx.post(

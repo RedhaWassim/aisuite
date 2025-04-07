@@ -19,7 +19,7 @@ client = ai.Client()
 
 provider = "edenai"
 # edenai provide a wide varaity of models, for more informations about the models available visit : https://docs.edenai.co/reference/llm_llm_chat_create
-model_id = "openai/gpt-4"
+model_id = "together_ai/Qwen/Qwen2.5-72B-Instruct-Turbo"
 
 messages = [
     {"role": "system", "content": "You are a helpful assistant."},
@@ -41,27 +41,23 @@ import aisuite as ai
 client = ai.Client()
 
 provider = "edenai"
-model_id = "google/gemini-1.5-flash"
+model_id = "openai/gpt-4o"
 
-# for more informations about the format of the messages visit : https://docs.edenai.co/reference/multimodal_multimodal_chat_create
+# for more informations about the format of the messages visit : https://docs.edenai.co/reference/llm_llm_chat_create
 messages = [
-    {"role": "user", "content": """"
-    [
+        {"role": "user", "content":[
             {
                 "type": "text",
-                "content": {
-                    "text": "what is the emotion in this man's face?"
-                }
+                "text": "what is the emotion in this man's face?"
             },
             {
-                "type": "media_url",
-                "content": {
-                    "media_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzY4Dea5Agp92nrKKuegn1wIxyQUSvVxSTNw&s",
-                    "media_type": "image/jpeg"
-                }
+                "type": "image_url",
+                "image_url": {
+                    "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQA2xNb4xY7_pK886sVo7JhjAdXxvch6zXIMg&s"
+                              }
             }
-]
-    """},
+]}
+
 ]
 ```
 Happy coding! If you’d like to contribute, please read our [Contributing Guide](../CONTRIBUTING.md).
